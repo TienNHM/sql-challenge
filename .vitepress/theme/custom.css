@@ -1,0 +1,49 @@
+/* Màu nhấn lấy từ bộ màu của các sơ đồ (accent #18816a / #25c19f) */
+:root {
+  --vp-c-brand-1: #157560;
+  --vp-c-brand-2: #18816a;
+  --vp-c-brand-3: #18816a;
+  --vp-c-brand-soft: rgba(24, 129, 106, 0.12);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #18816a 20%, #3b82c4);
+  --vp-home-hero-image-background-image: none;
+}
+
+.dark {
+  --vp-c-brand-1: #25c19f;
+  --vp-c-brand-2: #1fa587;
+  --vp-c-brand-3: #18816a;
+  --vp-c-brand-soft: rgba(37, 193, 159, 0.14);
+  --vp-home-hero-name-background: linear-gradient(120deg, #25c19f 20%, #6aa9e9);
+}
+
+/* Ảnh sơ đồ có hai bản: chỉ hiện bản hợp với giao diện đang dùng */
+.only-dark { display: none; }
+.dark .only-light { display: none; }
+.dark .only-dark { display: inline; }
+.vp-doc img.only-light, .vp-doc img.only-dark { border-radius: 8px; }
+
+/* Ẩn dòng điều hướng cuối bài (dành cho GitHub); website đã có "Bài trước / Bài sau" */
+.vp-doc hr:has(+ p > a[href$="/README"]),
+.vp-doc hr + p:has(> a[href$="/README"]) { display: none; }
+
+/* Bảng kết quả SQL dài: cuộn ngang thay vì tràn trang */
+.vp-doc table { display: block; overflow-x: auto; }
+
+/* Khối "Đáp án" */
+.vp-doc details {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin: 16px 0;
+  background: var(--vp-c-bg-soft);
+}
+.vp-doc details > summary { cursor: pointer; font-weight: 600; color: var(--vp-c-brand-1); }
+.vp-doc details[open] > summary { margin-bottom: 8px; }
+
+/* Hero: khung truy vấn nằm gọn bên phải */
+.VPHero .image-container { display: flex; align-items: center; justify-content: center; }
+@media (min-width: 960px) {
+  .VPHero .image { margin-left: 32px; }
+}

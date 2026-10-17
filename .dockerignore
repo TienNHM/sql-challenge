@@ -1,0 +1,20 @@
+# Repo hiện chỉ dùng image dựng sẵn (postgres, adminer). File này giữ build
+# context gọn nếu sau này thêm Dockerfile (ví dụ đóng gói website).
+.git
+.gitignore
+.dockerignore
+node_modules
+.vitepress/cache
+.vitepress/dist
+review
+**/__pycache__
+.venv
+venv
+.env
+.env.*
+*.dump
+*.backup
+.vscode
+.idea
+.DS_Store
+Thumbs.db
