@@ -4,7 +4,7 @@ Lộ trình học SQL trong 30 ngày, mỗi ngày một bài, từ `SELECT` cơ 
 
 Cả khóa dùng **PostgreSQL 16** và một bộ dữ liệu chung, cửa hàng đồ công nghệ **DSC Shop**: mọi ví dụ và bài tập đều chạy được, kết quả in trong bài là kết quả thật.
 
-👉 Bắt đầu tại [Lộ trình học SQL](lessons/00-30-day-sql-learning-roadmap.md), hoặc đọc trên website: <https://hcmute-dsc.github.io/sql-challenge/>.
+👉 Bắt đầu tại [Lộ trình học SQL](lessons/00-30-day-sql-learning-roadmap.md), hoặc đọc trên website: <https://tiennhm.io.vn/sql-challenge/>.
 
 ## Chuẩn bị môi trường
 

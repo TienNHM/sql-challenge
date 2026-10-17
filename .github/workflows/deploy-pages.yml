@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: npm run docs:build
         env:
-          # Ví dụ https://hcmute-dsc.github.io/sql-challenge/ → base_path là /sql-challenge
+          # Ví dụ https://tiennhm.io.vn/sql-challenge/ → base_path là /sql-challenge
           BASE: ${{ steps.pages.outputs.base_path }}/
 
       - uses: actions/upload-pages-artifact@v3

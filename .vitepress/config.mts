@@ -4,7 +4,7 @@ import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
 const root = resolve(__dirname, '..')
-const repo = 'https://github.com/hcmute-dsc/sql-challenge'
+const repo = 'https://github.com/TienNHM/sql-challenge'
 
 // Tiêu đề lấy từ dòng "# ..." đầu tiên của mỗi bài, bỏ tiền tố "Ngày N: "
 function lessonItems() {

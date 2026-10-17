@@ -15,7 +15,7 @@ hero:
       link: /setup/README
     - theme: alt
       text: Xem trên GitHub
-      link: https://github.com/hcmute-dsc/sql-challenge
+      link: https://github.com/TienNHM/sql-challenge
 
 features:
   - icon: 🗓️

@@ -12,7 +12,7 @@ const stages = [
 ].map((s) => ({ ...s, lessons: lessons.filter((l) => l.day >= s.from && l.day <= s.to) }))
 
 const steps = [
-  { title: 'Lấy repo về', code: 'git clone https://github.com/hcmute-dsc/sql-challenge.git\ncd sql-challenge' },
+  { title: 'Lấy repo về', code: 'git clone https://github.com/TienNHM/sql-challenge.git\ncd sql-challenge' },
   { title: 'Dựng database', code: 'docker compose up -d' },
   { title: 'Mở và gõ SQL', code: 'docker compose exec db psql -U postgres -d sql_challenge\n# hoặc Adminer: http://localhost:8080' },
 ]
