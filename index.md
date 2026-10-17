@@ -13,9 +13,6 @@ hero:
     - theme: alt
       text: Chuẩn bị môi trường
       link: /setup/README
-    - theme: alt
-      text: Xem trên GitHub
-      link: https://github.com/TienNHM/sql-challenge
 
 features:
   - icon: 🗓️

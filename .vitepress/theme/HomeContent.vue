@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { withBase } from 'vitepress'
+import { useData, withBase } from 'vitepress'
 import { data as lessons } from './lessons.data'
 import erdLight from '../../lessons/img/erd-dsc-shop.png'
 import erdDark from '../../lessons/img/erd-dsc-shop-dark.png'
@@ -11,8 +11,10 @@ const stages = [
   { name: 'Chặng 4', title: 'SQL trong thực tế', from: 22, to: 30 },
 ].map((s) => ({ ...s, lessons: lessons.filter((l) => l.day >= s.from && l.day <= s.to) }))
 
+const { theme } = useData()
+
 const steps = [
-  { title: 'Lấy repo về', code: 'git clone https://github.com/TienNHM/sql-challenge.git\ncd sql-challenge' },
+  { title: 'Lấy repo về', code: `git clone ${theme.value.repoUrl}.git\ncd sql-challenge` },
   { title: 'Dựng database', code: 'docker compose up -d' },
   { title: 'Mở và gõ SQL', code: 'docker compose exec db psql -U postgres -d sql_challenge\n# hoặc Adminer: http://localhost:8080' },
 ]

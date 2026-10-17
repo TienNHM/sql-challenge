@@ -1,10 +1,11 @@
 import { cpSync, readdirSync, readFileSync } from 'node:fs'
 import { join, posix, resolve } from 'node:path'
-import { defineConfig } from 'vitepress'
+import { type DefaultTheme, defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
 const root = resolve(__dirname, '..')
-const repo = 'https://github.com/TienNHM/sql-challenge'
+// Workflow truyền REPO_URL của repo đang build, nên bản fork (ví dụ của CLB) tự trỏ về chính nó
+const repo = process.env.REPO_URL || 'https://github.com/TienNHM/sql-challenge'
 
 // Tiêu đề lấy từ dòng "# ..." đầu tiên của mỗi bài, bỏ tiền tố "Ngày N: "
 function lessonItems() {
@@ -33,7 +34,7 @@ function sidebar() {
 }
 
 export default withMermaid(
-  defineConfig({
+  defineConfig<DefaultTheme.Config & { repoUrl: string }>({
     lang: 'vi-VN',
     title: '30 Days SQL Challenge',
     description: 'Khóa học SQL 30 ngày của HCMUTE Developer Student Club: PostgreSQL 16, bộ dữ liệu chung, bài tập có đáp án.',
@@ -91,6 +92,8 @@ export default withMermaid(
     },
 
     themeConfig: {
+      // Dùng ở trang chủ (lệnh git clone)
+      repoUrl: repo,
       nav: [
         { text: 'Lộ trình', link: '/lessons/00-30-day-sql-learning-roadmap' },
         { text: 'Môi trường', link: '/setup/README' },

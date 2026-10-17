@@ -36,7 +36,10 @@ jobs:
       - name: Build
         run: npm run docs:build
         env:
-          # Ví dụ https://tiennhm.io.vn/sql-challenge/ → base_path là /sql-challenge
+          # Link GitHub trên website trỏ về chính repo đang build (repo gốc hoặc bản fork)
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+          # Ví dụ https://tiennhm.io.vn/sql-challenge/ → base_path là /sql-challenge;
+          # repo có tên miền riêng (sql-challenge.hcmute-dsc.io.vn) → base_path rỗng
           BASE: ${{ steps.pages.outputs.base_path }}/
 
       - uses: actions/upload-pages-artifact@v3
