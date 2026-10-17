@@ -209,7 +209,7 @@ WHERE customer_id IN (1, 5, 17);
 
 | full_name | dung_noi | dung_concat |
 | --- | --- | --- |
-| Nguyễn Văn An | Nguyễn Văn An <an.nguyen@gmail.com> | Nguyễn Văn An <an.nguyen@gmail.com> |
+| Nguyễn Văn An | Nguyễn Văn An &lt;an.nguyen@gmail.com&gt; | Nguyễn Văn An &lt;an.nguyen@gmail.com&gt; |
 | Hoàng Thị Em | NULL | Hoàng Thị Em <> |
 | Châu Ngọc Trâm | NULL | Châu Ngọc Trâm <> |
 
@@ -835,11 +835,11 @@ Kết quả:
 
 | lien_he |
 | --- |
-| Nguyễn Văn An <an.nguyen@gmail.com> |
-| Trần Thị Bình <binh.tran@gmail.com> |
-| Lê Hoàng Cường <cuong.le@outlook.com> |
-| Phạm Minh Duy <duy.pham@gmail.com> |
-| Hoàng Thị Em <không có email> |
+| Nguyễn Văn An &lt;an.nguyen@gmail.com&gt; |
+| Trần Thị Bình &lt;binh.tran@gmail.com&gt; |
+| Lê Hoàng Cường &lt;cuong.le@outlook.com&gt; |
+| Phạm Minh Duy &lt;duy.pham@gmail.com&gt; |
+| Hoàng Thị Em &lt;không có email&gt; |
 
 Thiếu `COALESCE` thì dòng của Hoàng Thị Em thành `NULL` vì `||` gặp `NULL`.
 

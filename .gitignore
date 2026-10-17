@@ -1,0 +1,27 @@
+# Node / VitePress
+node_modules/
+.vitepress/cache/
+.vitepress/dist/
+npm-debug.log*
+
+# Môi trường, bí mật
+.env
+.env.*
+!.env.example
+
+# Python (script xuất sơ đồ)
+__pycache__/
+.venv/
+venv/
+
+# Editor, hệ điều hành
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# File học viên xuất ra khi thực hành
+*.dump
+*.backup
