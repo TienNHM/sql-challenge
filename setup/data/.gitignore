@@ -1,0 +1,11 @@
+# Thư mục này được mount vào container ở /data. File bạn xuất ra khi thực hành
+# (báo cáo, file dòng lỗi, bản dump) không đưa vào git; chỉ giữ các file mẫu.
+*
+!.gitignore
+!.gitkeep
+!new_customers.csv
+!price_update.csv
+!supplier_products.csv
+!customers_utf16.csv
+!new_employees.tsv
+!stock_count.csv

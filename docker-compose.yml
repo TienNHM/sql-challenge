@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16
+    container_name: sql-challenge-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sql_challenge
+      TZ: Asia/Ho_Chi_Minh
+      PGTZ: Asia/Ho_Chi_Minh
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./setup/init:/docker-entrypoint-initdb.d:ro
+      - ./setup/data:/data    # file CSV cho bài import/export, trong container là /data
+      - db-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:4
+    container_name: sql-challenge-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:

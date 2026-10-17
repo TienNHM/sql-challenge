@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNION, UNION ALL, INTERSECT và EXCEPT giữa hai tập kết quả</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #fafaf7;
+      --color-ink:    #1c1e21;
+      --color-muted:  #525860;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">UNION · INTERSECT · EXCEPT · sản phẩm bán online và offline</p>
+    <h1>Bốn phép toán tập hợp giữ lại những dòng nào</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="union-intersect-title union-intersect-desc">
+  <title id="union-intersect-title">UNION, UNION ALL, INTERSECT và EXCEPT giữa hai tập kết quả</title>
+  <desc id="union-intersect-desc">So sánh hai tập sản phẩm của DSC Shop: 19 sản phẩm từng bán qua đơn online và 18 sản phẩm từng bán qua đơn offline. UNION trả 23 sản phẩm không trùng; UNION ALL ghép nguyên 37 và 23 dòng thành 60 dòng; INTERSECT trả 14 sản phẩm bán ở cả hai kênh; EXCEPT trả 5 sản phẩm chỉ bán online.</desc>
+  <defs>
+<clipPath id="union-intersect-ca"><circle cx="72" cy="156" r="56"/></clipPath>
+<mask id="union-intersect-except"><rect width="960" height="360" fill="#fff"/><circle cx="136" cy="156" r="56" fill="#000"/></mask>
+  </defs>
+  <rect width="100%" height="100%" fill="#fafaf7"/>
+<g transform="translate(16,0)">
+<text x="64" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán online</text>
+<text x="144" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán offline</text>
+<g opacity="0.16"><circle cx="72" cy="156" r="56" fill="#1c1e21"/><circle cx="136" cy="156" r="56" fill="#1c1e21"/></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">UNION</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Mọi sản phẩm của hai vế,</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">trùng chỉ giữ một</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">23 dòng</text>
+</g>
+<g transform="translate(252,0)">
+<text x="64" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán online</text>
+<text x="144" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán offline</text>
+<circle cx="72" cy="156" r="56" fill="#1c1e21" opacity="0.16"/><circle cx="136" cy="156" r="56" fill="#1c1e21" opacity="0.16"/>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="104" y="161" fill="#18816a" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">×2</text>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">UNION ALL</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Ghép nguyên mọi dòng hàng,</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">không lọc trùng</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">37 + 23 = 60 dòng</text>
+</g>
+<g transform="translate(488,0)">
+<text x="64" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán online</text>
+<text x="144" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán offline</text>
+<g opacity="0.16"><g clip-path="url(#union-intersect-ca)"><circle cx="136" cy="156" r="56" fill="#1c1e21"/></g></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">INTERSECT</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Chỉ sản phẩm bán</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">ở cả hai kênh</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">14 dòng</text>
+</g>
+<g transform="translate(724,0)">
+<text x="64" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán online</text>
+<text x="144" y="84" fill="#525860" font-size="10.5" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bán offline</text>
+<g mask="url(#union-intersect-except)"><circle cx="72" cy="156" r="56" fill="#1c1e21" opacity="0.16"/></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="104" y="248" fill="#18816a" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">EXCEPT</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Bán online nhưng</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">chưa từng bán offline</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">5 dòng</text>
+</g>
+<line x1="248" y1="72" x2="248" y2="312" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<line x1="484" y1="72" x2="484" y2="312" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<line x1="720" y1="72" x2="720" y2="312" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="28" y="40" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">SẢN PHẨM BÁN QUA ĐƠN ONLINE VÀ OFFLINE · 19 VÀ 18 SẢN PHẨM · PHẦN TÔ ĐẬM LÀ DÒNG CÓ TRONG KẾT QUẢ</text>
+<text x="936" y="348" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end" id="tiennhm-copyright" opacity="0.75" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

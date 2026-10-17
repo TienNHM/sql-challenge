@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cách đọc một cây plan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Phân tích hiệu năng · EXPLAIN ANALYZE</p>
+    <h1>Đọc cây plan từ dưới lên: nút lá chạy trước, dữ liệu đi lên nút cha</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 624" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cach-doc-cay-plan-dark-title cach-doc-cay-plan-dark-desc">
+  <title id="cach-doc-cay-plan-dark-title">Cách đọc một cây plan của PostgreSQL</title>
+  <desc id="cach-doc-cay-plan-dark-desc">Cây plan của truy vấn doanh thu 2026 theo thành phố trên perf.orders và perf.customers: Seq Scan customers đưa 100.000 dòng vào Hash; Seq Scan orders lọc còn 174.865 dòng (bỏ 825.135) rồi dò vào bảng băm ở Hash Join; HashAggregate gom thành 10 thành phố; Sort xếp theo doanh thu. Mỗi nút có số dòng ước lượng và thực tế; thời gian của nút cha đã gồm nút con, tổng 108 ms, nút tốn nhất là Seq Scan orders.</desc>
+  <defs>
+    <marker id="cach-doc-cay-plan-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="cach-doc-cay-plan-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+<rect width="100%" height="100%" fill="#1b1b1d"/>
+<rect x="40" y="28" width="880" height="32" rx="4" fill="rgba(227,227,227,0.03)" stroke="rgba(227,227,227,0.30)" stroke-width="1"/>
+<text x="480" y="48" fill="#e3e3e3" font-size="10.5" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="middle">SELECT c.city, SUM(o.total_amount) FROM perf.orders o JOIN perf.customers c … GROUP BY c.city ORDER BY 2 DESC</text>
+<text x="40" y="96" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">CÂY PLAN · EXPLAIN ANALYZE</text>
+<line x1="280" y1="204" x2="280" y2="174" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cach-doc-cay-plan-dark-arrow)"/>
+<line x1="280" y1="296" x2="280" y2="266" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cach-doc-cay-plan-dark-arrow)"/>
+<path d="M156 412 V392 Q156 384 164 384 H233 Q241 384 241 376 V358" stroke="#25c19f" stroke-width="1.4" fill="none" marker-end="url(#cach-doc-cay-plan-dark-arrow-accent)"/>
+<path d="M420 412 V392 Q420 384 412 384 H327 Q319 384 319 376 V358" stroke="#b4b9c0" stroke-width="1.2" fill="none" marker-end="url(#cach-doc-cay-plan-dark-arrow)"/>
+<line x1="420" y1="508" x2="420" y2="474" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cach-doc-cay-plan-dark-arrow)"/>
+<rect x="290" y="181" width="52" height="12" rx="2" fill="#1b1b1d"/><text x="292" y="190" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.12em">10 NHÓM</text>
+<rect x="290" y="273" width="76" height="12" rx="2" fill="#1b1b1d"/><text x="292" y="282" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.12em">174.865 DÒNG</text>
+<rect x="430" y="485" width="76" height="12" rx="2" fill="#1b1b1d"/><text x="432" y="494" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.12em">100.000 DÒNG</text>
+<rect x="164" y="112" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="280.0" y="132" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Sort</text>
+<text x="280.0" y="149" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Sort Key: doanh_thu DESC</text>
+<text x="280.0" y="164" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">rows 10 / 10 · xong 108,0 ms</text>
+<rect x="172" y="120" width="16" height="14" rx="2" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="180" y="130.5" fill="#b4b9c0" font-size="9" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">6</text>
+<rect x="164" y="204" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="280.0" y="224" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">HashAggregate</text>
+<text x="280.0" y="241" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Group Key: c.city</text>
+<text x="280.0" y="256" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">rows 10 / 10 · xong 108,0 ms</text>
+<rect x="172" y="212" width="16" height="14" rx="2" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="180" y="222.5" fill="#b4b9c0" font-size="9" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">5</text>
+<rect x="164" y="296" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="280.0" y="316" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Hash Join</text>
+<text x="280.0" y="333" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">rows 172364 / 174865</text>
+<text x="280.0" y="348" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">xong 87,9 ms</text>
+<rect x="172" y="304" width="16" height="14" rx="2" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="180" y="314.5" fill="#b4b9c0" font-size="9" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">4</text>
+<rect x="40" y="412" width="232" height="60" rx="6" fill="#1b1b1d"/>
+<rect x="40" y="412" width="232" height="60" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<text x="156.0" y="432" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Seq Scan on orders o</text>
+<text x="156.0" y="449" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">rows 172364 / 174865</text>
+<text x="156.0" y="464" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">bỏ 825135 dòng · 41,6 ms</text>
+<rect x="48" y="420" width="16" height="14" rx="2" fill="#1b1b1d" stroke="#25c19f" stroke-width="0.8"/>
+<text x="56" y="430.5" fill="#25c19f" font-size="9" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">3</text>
+<rect x="304" y="412" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="420.0" y="432" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Hash</text>
+<text x="420.0" y="449" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">100000 khách · 5790kB</text>
+<text x="420.0" y="464" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">xong 16,4 ms</text>
+<rect x="312" y="420" width="16" height="14" rx="2" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="320" y="430.5" fill="#b4b9c0" font-size="9" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">2</text>
+<rect x="304" y="508" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="420.0" y="528" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Seq Scan on customers c</text>
+<text x="420.0" y="545" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">rows 100000 / 100000</text>
+<text x="420.0" y="560" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">xong 6,1 ms</text>
+<rect x="312" y="516" width="16" height="14" rx="2" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="320" y="526.5" fill="#b4b9c0" font-size="9" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<line x1="568" y1="88" x2="568" y2="568" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="592" y="96" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">CÁCH ĐỌC</text>
+<text x="592" y="132" fill="#b4b9c0" font-size="13" font-weight="600" font-family="'Geist Mono', monospace">1</text>
+<text x="612" y="132" fill="#e3e3e3" font-size="15" font-weight="600" font-family="'Geist', sans-serif">Từ dưới lên, từ trong ra</text>
+<text x="612" y="158" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">Nút thụt sâu nhất chạy trước</text>
+<text x="612" y="180" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">(số 1, 2, 3), dữ liệu đi lên nút cha.</text>
+<text x="612" y="202" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">Hash Join cần hai con: bảng băm</text>
+<text x="612" y="224" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">(Hash) và các dòng để dò.</text>
+<text x="592" y="272" fill="#b4b9c0" font-size="13" font-weight="600" font-family="'Geist Mono', monospace">2</text>
+<text x="612" y="272" fill="#e3e3e3" font-size="15" font-weight="600" font-family="'Geist', sans-serif">rows: ước lượng / thực tế</text>
+<text x="612" y="298" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">rows=172364 là ước lượng,</text>
+<text x="612" y="320" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">actual rows=174865 là thực tế.</text>
+<text x="612" y="342" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">Lệch hàng chục lần thì planner</text>
+<text x="612" y="364" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">dễ chọn sai cách chạy.</text>
+<text x="592" y="412" fill="#25c19f" font-size="13" font-weight="600" font-family="'Geist Mono', monospace">3</text>
+<text x="612" y="412" fill="#25c19f" font-size="15" font-weight="600" font-family="'Geist', sans-serif">Thời gian cộng dồn lên trên</text>
+<text x="612" y="438" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">Nút cha đã gồm thời gian nút con:</text>
+<text x="612" y="460" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">108,0 ms ở Sort là cả cây.</text>
+<text x="612" y="482" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">Tìm chỗ thời gian tăng vọt: ở đây</text>
+<text x="612" y="504" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">là Seq Scan on orders.</text>
+<text x="592" y="552" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">Số đo trên máy tác giả, máy bạn sẽ khác.</text>
+<text id="tiennhm-copyright" x="936" y="612" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

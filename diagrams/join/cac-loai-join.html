@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bốn kiểu JOIN giữ lại những dòng nào</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #fafaf7;
+      --color-ink:    #1c1e21;
+      --color-muted:  #525860;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">JOIN · employees và orders</p>
+    <h1>Bốn kiểu JOIN giữ lại những dòng nào</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cac-loai-join-title cac-loai-join-desc">
+  <title id="cac-loai-join-title">INNER, LEFT, RIGHT và FULL JOIN giữa employees và orders</title>
+  <desc id="cac-loai-join-desc">Ghép employees với orders theo employee_id: INNER JOIN giữ 15 đơn offline có người bán; LEFT JOIN giữ thêm 4 nhân viên chưa bán đơn nào (19 dòng); RIGHT JOIN giữ thêm 25 đơn online không có người bán (40 dòng); FULL JOIN giữ tất cả (44 dòng).</desc>
+  <defs>
+    <marker id="cac-loai-join-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#525860"/></marker>
+    <marker id="cac-loai-join-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#18816a"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#fafaf7"/>
+<defs><clipPath id="cac-loai-join-ca"><circle cx="72" cy="156" r="56"/></clipPath></defs>
+<g transform="translate(28,0)">
+<text x="60" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">employees</text>
+<text x="150" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">orders</text>
+<g opacity="0.16"><g clip-path="url(#cac-loai-join-ca)"><circle cx="136" cy="156" r="56" fill="#1c1e21"/></g></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="50" y="160" fill="#525860" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">4</text>
+<text x="104" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">15</text>
+<text x="160" y="160" fill="#525860" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">25</text>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">INNER JOIN</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Chỉ cặp khớp: đơn offline</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">kèm người bán</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">15 dòng</text>
+</g>
+<g transform="translate(260,0)">
+<text x="60" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">employees</text>
+<text x="150" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">orders</text>
+<g opacity="0.16"><circle cx="72" cy="156" r="56" fill="#1c1e21"/></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="50" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">4</text>
+<text x="104" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">15</text>
+<text x="160" y="160" fill="#525860" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">25</text>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">LEFT JOIN</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Mọi nhân viên, kể cả</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">4 người chưa bán đơn nào</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">19 dòng = 15 + 4</text>
+</g>
+<g transform="translate(492,0)">
+<text x="60" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">employees</text>
+<text x="150" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">orders</text>
+<g opacity="0.16"><circle cx="136" cy="156" r="56" fill="#1c1e21"/></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="50" y="160" fill="#525860" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">4</text>
+<text x="104" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">15</text>
+<text x="160" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">25</text>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">RIGHT JOIN</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Mọi đơn hàng, kể cả</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">25 đơn online không người bán</text>
+<text x="104" y="308" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">40 dòng = 15 + 25</text>
+</g>
+<g transform="translate(724,0)">
+<text x="60" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">employees</text>
+<text x="150" y="84" fill="#525860" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">orders</text>
+<g opacity="0.16"><circle cx="72" cy="156" r="56" fill="#1c1e21"/><circle cx="136" cy="156" r="56" fill="#1c1e21"/></g>
+<circle cx="72" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<circle cx="136" cy="156" r="56" fill="none" stroke="#1c1e21" stroke-width="1"/>
+<text x="50" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">4</text>
+<text x="104" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">15</text>
+<text x="160" y="160" fill="#1c1e21" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">25</text>
+<text x="104" y="248" fill="#1c1e21" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">FULL JOIN</text>
+<text x="104" y="268" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">Mọi dòng của cả hai bảng,</text>
+<text x="104" y="284" fill="#525860" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">khớp hay không</text>
+<text x="104" y="308" fill="#18816a" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">44 dòng = 4 + 15 + 25</text>
+</g>
+<line x1="248" y1="72" x2="248" y2="312" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<line x1="480" y1="72" x2="480" y2="312" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<line x1="712" y1="72" x2="712" y2="312" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="28" y="40" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">EMPLOYEES e JOIN ORDERS o ON o.employee_id = e.employee_id · PHẦN TÔ ĐẬM LÀ DÒNG CÓ TRONG KẾT QUẢ</text>
+<text x="28" y="340" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">Số trong vòng tròn: 4 nhân viên chưa bán đơn nào · 15 đơn offline có người bán · 25 đơn online (employee_id là NULL). MySQL không có FULL JOIN.</text>
+<text id="tiennhm-copyright" x="936" y="368" text-anchor="end" fill="#525860" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOIN hai bảng con rồi SUM: số bị nhân lên</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #fafaf7;
+      --color-ink:    #1c1e21;
+      --color-muted:  #525860;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">JOIN · nhân dòng · đơn 12</p>
+    <h1>JOIN hai bảng con rồi SUM: số bị nhân lên</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 376" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="nhan-dong-khi-join-title nhan-dong-khi-join-desc">
+  <title id="nhan-dong-khi-join-title">Nhân dòng khi JOIN order_items và payments của đơn 12</title>
+  <desc id="nhan-dong-khi-join-desc">Đơn 12 có 2 dòng hàng và 2 lần thanh toán; JOIN cả hai bảng theo order_id tạo 2 × 2 = 4 dòng, nên SUM tiền hàng và SUM amount đều ra 63.760.000 thay vì 31.880.000.</desc>
+  <defs>
+    <marker id="nhan-dong-khi-join-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#525860"/></marker>
+    <marker id="nhan-dong-khi-join-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#18816a"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#fafaf7"/>
+<text x="32" y="36" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">ORDERS o JOIN ORDER_ITEMS oi … JOIN PAYMENTS p … WHERE o.order_id = 12</text>
+<path d="M296 114 H352 Q360 114 360 122 V148 Q360 156 368 156 H448" fill="none" stroke="#525860" stroke-width="1.2" marker-end="url(#nhan-dong-khi-join-arrow)"/>
+<path d="M296 238 H368 Q376 238 376 230 V192 Q376 184 384 184 H448" fill="none" stroke="#525860" stroke-width="1.2" marker-end="url(#nhan-dong-khi-join-arrow)"/>
+<text x="32" y="62" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">ORDER_ITEMS · ĐƠN 12 · 2 DÒNG</text>
+<rect x="32" y="72" width="264" height="84" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="32.5" y="72.5" width="263" height="27.5" rx="5" fill="rgba(28,30,33,0.03)" stroke="none" stroke-width="0"/>
+<text x="48" y="90" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">product_id</text>
+<text x="280" y="90" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">tiền hàng</text>
+<line x1="32" y1="100" x2="296" y2="100" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="48" y="118" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">2</text>
+<text x="280" y="118" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">29.990.000</text>
+<line x1="32" y1="128" x2="296" y2="128" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="48" y="146" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">18</text>
+<text x="280" y="146" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">1.890.000</text>
+<text x="32" y="186" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">PAYMENTS · ĐƠN 12 · 2 DÒNG</text>
+<rect x="32" y="196" width="264" height="84" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="32.5" y="196.5" width="263" height="27.5" rx="5" fill="rgba(28,30,33,0.03)" stroke="none" stroke-width="0"/>
+<text x="48" y="214" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">payment_id</text>
+<text x="280" y="214" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">amount</text>
+<line x1="32" y1="224" x2="296" y2="224" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="48" y="242" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">36</text>
+<text x="280" y="242" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">15.000.000</text>
+<line x1="32" y1="252" x2="296" y2="252" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="48" y="270" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">37</text>
+<text x="280" y="270" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">16.880.000</text>
+<text x="448" y="90" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">KẾT QUẢ JOIN · 2 × 2 = 4 DÒNG</text>
+<rect x="448" y="100" width="480" height="140" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="448.5" y="100.5" width="479" height="27.5" rx="5" fill="rgba(28,30,33,0.03)" stroke="none" stroke-width="0"/>
+<text x="464" y="118" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">product_id</text>
+<text x="660" y="118" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">tiền hàng</text>
+<text x="704" y="118" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">payment_id</text>
+<text x="912" y="118" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">amount</text>
+<line x1="448" y1="128" x2="928" y2="128" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="464" y="146" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">2</text>
+<text x="660" y="146" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">29.990.000</text>
+<text x="704" y="146" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">36</text>
+<text x="912" y="146" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">15.000.000</text>
+<line x1="448" y1="156" x2="928" y2="156" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="464" y="174" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">18</text>
+<text x="660" y="174" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">1.890.000</text>
+<text x="704" y="174" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">36</text>
+<text x="912" y="174" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">15.000.000</text>
+<line x1="448" y1="184" x2="928" y2="184" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="464" y="202" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">2</text>
+<text x="660" y="202" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">29.990.000</text>
+<text x="704" y="202" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">37</text>
+<text x="912" y="202" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">16.880.000</text>
+<line x1="448" y1="212" x2="928" y2="212" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="464" y="230" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">18</text>
+<text x="660" y="230" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">1.890.000</text>
+<text x="704" y="230" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="start">37</text>
+<text x="912" y="230" fill="#1c1e21" font-size="10.5" font-family="'Geist Mono', monospace" text-anchor="end">16.880.000</text>
+<line x1="448" y1="256" x2="928" y2="256" stroke="rgba(28,30,33,0.30)" stroke-width="1"/>
+<text x="464" y="280" fill="#525860" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">SUM(tiền hàng)</text>
+<text x="660" y="280" fill="#18816a" font-size="11" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">63.760.000</text>
+<text x="704" y="280" fill="#525860" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">SUM(amount)</text>
+<text x="912" y="280" fill="#18816a" font-size="11" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">63.760.000</text>
+<text x="464" y="300" fill="#525860" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">đúng: 31.880.000</text>
+<text x="704" y="300" fill="#525860" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">đúng: 31.880.000</text>
+<text x="164" y="318" fill="#525860" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">Mỗi dòng hàng gặp từng lần thanh toán,</text>
+<text x="164" y="338" fill="#525860" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">nên mọi phép SUM đều bị nhân đôi</text>
+<text id="tiennhm-copyright" x="936" y="364" text-anchor="end" fill="#525860" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

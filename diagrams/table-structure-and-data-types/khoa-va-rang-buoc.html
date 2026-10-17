@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khóa và ràng buộc trong DSC Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #fafaf7;
+      --color-ink:    #1c1e21;
+      --color-muted:  #525860;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 1048px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Database schema · DSC Shop</p>
+    <h1>Khóa và ràng buộc trong DSC Shop</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 1048 544" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="khoa-va-rang-buoc-title khoa-va-rang-buoc-desc">
+  <title id="khoa-va-rang-buoc-title">Khóa và ràng buộc trong DSC Shop</title>
+  <desc id="khoa-va-rang-buoc-desc">Năm bảng customers, orders, order_items, products, payments với kiểu dữ liệu và ràng buộc của từng cột; khóa ngoại order_items.order_id dùng ON DELETE CASCADE, các khóa ngoại còn lại dùng NO ACTION.</desc>
+  <defs>
+    <marker id="khoa-va-rang-buoc-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#525860"/></marker>
+    <marker id="khoa-va-rang-buoc-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#18816a"/></marker>
+  </defs>
+<rect width="100%" height="100%" fill="#fafaf7"/>
+<text x="32" y="52" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">SCHEMA SHOP · 5 BẢNG CHÍNH</text>
+<line x1="376" y1="144" x2="314" y2="144" stroke="#525860" stroke-width="1.2" marker-end="url(#khoa-va-rang-buoc-arrow)"/>
+<line x1="720" y1="114" x2="658" y2="114" stroke="#18816a" stroke-width="1.6" marker-end="url(#khoa-va-rang-buoc-arrow-accent)"/>
+<rect x="662" y="92" width="52" height="12" rx="2" fill="#fafaf7"/>
+<text x="688" y="101" fill="#18816a" font-size="8" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">CASCADE</text>
+<path d="M 656 356 L 676 356 Q 684 356 684 348 L 684 134 Q 684 126 676 126 L 658 126" fill="none" stroke="#525860" stroke-width="1.2" marker-end="url(#khoa-va-rang-buoc-arrow)"/>
+<path d="M 1000 144 L 1012 144 Q 1020 144 1020 152 L 1020 324 Q 1020 332 1012 332 L 1002 332" fill="none" stroke="#525860" stroke-width="1.2" marker-end="url(#khoa-va-rang-buoc-arrow)"/>
+<rect x="32" y="96" width="280" height="180" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="42" y="107" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="60" y="117" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="88" y="119" fill="#1c1e21" font-size="12" font-weight="600" font-family="'Geist', sans-serif">customers</text>
+<line x1="32" y1="132" x2="312" y2="132" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="44" y="148" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">customer_id</text>
+<rect x="152" y="137" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="162" y="147" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">PK</text>
+<text x="300" y="147" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<rect x="33" y="156" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="44" y="172" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">full_name</text>
+<rect x="152" y="161" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="162" y="171" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<text x="300" y="171" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(100)</text>
+<text x="44" y="196" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">email</text>
+<rect x="152" y="185" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="162" y="195" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">UQ</text>
+<text x="300" y="195" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(255)</text>
+<rect x="33" y="204" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="44" y="220" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">city</text>
+<text x="300" y="219" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(100)</text>
+<text x="44" y="244" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">created_at</text>
+<rect x="152" y="233" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="162" y="243" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="176" y="233" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="186" y="243" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">DF</text>
+<text x="300" y="243" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">timestamptz</text>
+<text x="44" y="266" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">+ 2 cột khác</text>
+<rect x="376" y="72" width="280" height="180" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="386" y="83" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="404" y="93" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="432" y="95" fill="#1c1e21" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders</text>
+<line x1="376" y1="108" x2="656" y2="108" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="388" y="124" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">order_id</text>
+<rect x="496" y="113" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="506" y="123" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">PK</text>
+<text x="644" y="123" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<rect x="377" y="132" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="388" y="148" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">customer_id</text>
+<rect x="496" y="137" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="506" y="147" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">FK</text>
+<rect x="520" y="137" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="530" y="147" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<text x="644" y="147" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<text x="388" y="172" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">order_date</text>
+<rect x="496" y="161" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="506" y="171" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<text x="644" y="171" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">timestamptz</text>
+<rect x="377" y="180" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="388" y="196" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">status</text>
+<rect x="496" y="185" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="506" y="195" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="520" y="185" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="530" y="195" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<rect x="544" y="185" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="554" y="195" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">DF</text>
+<text x="644" y="195" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(20)</text>
+<text x="388" y="220" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">channel</text>
+<rect x="496" y="209" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="506" y="219" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="520" y="209" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="530" y="219" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<text x="644" y="219" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(10)</text>
+<text x="388" y="242" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">+ 3 cột khác</text>
+<rect x="720" y="72" width="280" height="160" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<path d="M 720.5 108 L 720.5 78 Q 720.5 72.5 726 72.5 L 994 72.5 Q 999.5 72.5 999.5 78 L 999.5 108 Z" fill="rgba(24,129,106,0.08)"/>
+<rect x="730" y="83" width="36" height="14" rx="2" fill="none" stroke="#18816a" stroke-width="0.8"/>
+<text x="748" y="93" fill="#18816a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="776" y="95" fill="#1c1e21" font-size="12" font-weight="600" font-family="'Geist', sans-serif">order_items</text>
+<line x1="720" y1="108" x2="1000" y2="108" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="732" y="124" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">order_id</text>
+<rect x="840" y="113" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="850" y="123" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">PK</text>
+<rect x="864" y="113" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="874" y="123" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">FK</text>
+<text x="988" y="123" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<rect x="721" y="132" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="732" y="148" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">product_id</text>
+<rect x="840" y="137" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="850" y="147" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">PK</text>
+<rect x="864" y="137" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="874" y="147" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">FK</text>
+<text x="988" y="147" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<text x="732" y="172" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">quantity</text>
+<rect x="840" y="161" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="171" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="864" y="161" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="874" y="171" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<text x="988" y="171" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<rect x="721" y="180" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="732" y="196" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">unit_price</text>
+<rect x="840" y="185" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="195" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="864" y="185" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="874" y="195" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<text x="988" y="195" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">numeric(12,0)</text>
+<text x="732" y="220" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">discount</text>
+<rect x="840" y="209" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="219" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="864" y="209" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="874" y="219" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<rect x="888" y="209" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="898" y="219" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">DF</text>
+<text x="988" y="219" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">numeric(3,2)</text>
+<rect x="376" y="284" width="280" height="156" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="386" y="295" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="404" y="305" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="432" y="307" fill="#1c1e21" font-size="12" font-weight="600" font-family="'Geist', sans-serif">payments</text>
+<line x1="376" y1="320" x2="656" y2="320" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="388" y="336" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">payment_id</text>
+<rect x="496" y="325" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="506" y="335" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">PK</text>
+<text x="644" y="335" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<rect x="377" y="344" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="388" y="360" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">order_id</text>
+<rect x="496" y="349" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="506" y="359" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">FK</text>
+<rect x="520" y="349" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="530" y="359" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<text x="644" y="359" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<text x="388" y="384" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">amount</text>
+<rect x="496" y="373" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="506" y="383" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="520" y="373" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="530" y="383" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<text x="644" y="383" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">numeric(12,0)</text>
+<rect x="377" y="392" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="388" y="408" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">method</text>
+<rect x="496" y="397" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="506" y="407" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="520" y="397" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="530" y="407" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<text x="644" y="407" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(20)</text>
+<text x="388" y="430" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">+ 1 cột khác</text>
+<rect x="720" y="284" width="280" height="180" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="730" y="295" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="748" y="305" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="776" y="307" fill="#1c1e21" font-size="12" font-weight="600" font-family="'Geist', sans-serif">products</text>
+<line x1="720" y1="320" x2="1000" y2="320" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="732" y="336" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">product_id</text>
+<rect x="840" y="325" width="20" height="14" rx="2" fill="none" stroke="#1c1e21" stroke-width="0.9"/>
+<text x="850" y="335" fill="#1c1e21" font-size="7.5" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">PK</text>
+<text x="988" y="335" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<rect x="721" y="344" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="732" y="360" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">sku</text>
+<rect x="840" y="349" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="359" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">UQ</text>
+<rect x="864" y="349" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="874" y="359" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<text x="988" y="359" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(20)</text>
+<text x="732" y="384" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">name</text>
+<rect x="840" y="373" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="383" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<text x="988" y="383" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">varchar(200)</text>
+<rect x="721" y="392" width="278" height="24" fill="rgba(28,30,33,0.025)"/>
+<text x="732" y="408" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">price</text>
+<rect x="840" y="397" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="407" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="864" y="397" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="874" y="407" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<text x="988" y="407" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">numeric(12,0)</text>
+<text x="732" y="432" fill="#1c1e21" font-size="11" font-weight="500" font-family="'Geist', sans-serif">stock_quantity</text>
+<rect x="840" y="421" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="850" y="431" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">NN</text>
+<rect x="864" y="421" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="874" y="431" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">CK</text>
+<rect x="888" y="421" width="20" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.6"/>
+<text x="898" y="431" fill="#525860" font-size="7.5" font-weight="400" font-family="'Geist Mono', monospace" text-anchor="middle">DF</text>
+<text x="988" y="431" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">int</text>
+<text x="732" y="454" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">+ 5 cột khác</text>
+<text x="32" y="332" fill="#525860" font-size="13" font-family="'Geist', system-ui, sans-serif">Xóa một đơn hàng: các dòng order_items</text>
+<text x="32" y="350" fill="#525860" font-size="13" font-family="'Geist', system-ui, sans-serif">của đơn tự bị xóa theo (ON DELETE CASCADE).</text>
+<text x="32" y="388" fill="#525860" font-size="13" font-family="'Geist', system-ui, sans-serif">Đơn đã có payments thì không xóa được:</text>
+<text x="32" y="406" fill="#525860" font-size="13" font-family="'Geist', system-ui, sans-serif">khóa ngoại mặc định NO ACTION chặn lại.</text>
+<line x1="32" y1="476" x2="1016" y2="476" stroke="rgba(28,30,33,0.10)" stroke-width="0.8"/>
+<text x="32" y="500" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">CHÚ GIẢI</text>
+<text x="112" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">PK khóa chính</text>
+<text x="202.8" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">FK khóa ngoại</text>
+<text x="293.6" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">UQ UNIQUE</text>
+<text x="362.0" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">NN NOT NULL</text>
+<text x="441.6" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">CK CHECK</text>
+<text x="504.40000000000003" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">DF DEFAULT</text>
+<line x1="586" y1="497" x2="614" y2="497" stroke="#525860" stroke-width="1.2" marker-end="url(#khoa-va-rang-buoc-arrow)"/>
+<text x="622" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">FK mặc định (NO ACTION)</text>
+<line x1="768" y1="497" x2="796" y2="497" stroke="#18816a" stroke-width="1.6" marker-end="url(#khoa-va-rang-buoc-arrow-accent)"/>
+<text x="804" y="500" fill="#525860" font-size="9" font-family="'Geist Mono', monospace">ON DELETE CASCADE</text>
+<text id="tiennhm-copyright" x="1024" y="532" text-anchor="end" fill="#525860" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

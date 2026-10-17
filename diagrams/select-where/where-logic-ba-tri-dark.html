@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WHERE chỉ giữ những dòng TRUE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">WHERE · NULL · logic ba trị</p>
+    <h1>WHERE chỉ giữ những dòng TRUE</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 452" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="where-logic-ba-tri-dark-title where-logic-ba-tri-dark-desc">
+  <title id="where-logic-ba-tri-dark-title">WHERE lọc dòng theo logic ba trị</title>
+  <desc id="where-logic-ba-tri-dark-desc">Ba khách hàng đi qua điều kiện city &lt;&gt; 'Hà Nội': khách ở Hà Nội cho FALSE và bị loại, khách ở Cần Thơ cho TRUE và được giữ, khách có city NULL cho UNKNOWN và cũng bị loại.</desc>
+  <defs>
+    <marker id="where-logic-ba-tri-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="where-logic-ba-tri-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#1b1b1d"/>
+<text x="32" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">DÒNG TỪ customers</text>
+<text x="280" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">WHERE city &lt;&gt; 'Hà Nội'</text>
+<text x="560" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">KẾT QUẢ SO SÁNH</text>
+<text x="744" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">WHERE QUYẾT ĐỊNH</text>
+<line x1="232" y1="94" x2="280" y2="94" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<line x1="512" y1="94" x2="560" y2="94" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<line x1="696" y1="94" x2="744" y2="94" stroke="#b4b9c0" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<rect x="32" y="64" width="200" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="48" y="90" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">#2 · Trần Thị Bình</text>
+<text x="48" y="108" fill="#b4b9c0" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">city = 'Hà Nội'</text>
+<rect x="280" y="64" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="396" y="90" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">so sánh</text>
+<text x="396" y="108" fill="#e3e3e3" font-size="11" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="middle">'Hà Nội' &lt;&gt; 'Hà Nội'</text>
+<rect x="560" y="64" width="136" height="60" rx="6" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="1"/>
+<text x="628" y="99" fill="#e3e3e3" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">FALSE</text>
+<rect x="744" y="64" width="184" height="60" rx="6" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="836" y="90" fill="#b4b9c0" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Loại bỏ</text>
+<text x="836" y="108" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">điều kiện sai</text>
+<line x1="232" y1="186" x2="280" y2="186" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<line x1="512" y1="186" x2="560" y2="186" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<line x1="696" y1="186" x2="744" y2="186" stroke="#25c19f" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow-accent)"/>
+<rect x="32" y="156" width="200" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="48" y="182" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">#5 · Hoàng Thị Em</text>
+<text x="48" y="200" fill="#b4b9c0" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">city = 'Cần Thơ'</text>
+<rect x="280" y="156" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="396" y="182" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">so sánh</text>
+<text x="396" y="200" fill="#e3e3e3" font-size="11" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="middle">'Cần Thơ' &lt;&gt; 'Hà Nội'</text>
+<rect x="560" y="156" width="136" height="60" rx="6" fill="#1b1b1d"/><rect x="560" y="156" width="136" height="60" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<text x="628" y="191" fill="#25c19f" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">TRUE</text>
+<rect x="744" y="156" width="184" height="60" rx="6" fill="#1b1b1d"/><rect x="744" y="156" width="184" height="60" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<text x="836" y="182" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Giữ lại</text>
+<text x="836" y="200" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">dòng vào kết quả</text>
+<line x1="232" y1="278" x2="280" y2="278" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<line x1="512" y1="278" x2="560" y2="278" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<line x1="696" y1="278" x2="744" y2="278" stroke="#b4b9c0" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#where-logic-ba-tri-dark-arrow)"/>
+<rect x="32" y="248" width="200" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="48" y="274" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">#11 · Lý Thanh Mai</text>
+<text x="48" y="292" fill="#b4b9c0" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">city = NULL</text>
+<rect x="280" y="248" width="232" height="60" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="396" y="274" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">so sánh</text>
+<text x="396" y="292" fill="#e3e3e3" font-size="11" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="middle">NULL &lt;&gt; 'Hà Nội'</text>
+<rect x="560" y="248" width="136" height="60" rx="6" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="628" y="283" fill="#e3e3e3" font-size="13" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="middle">UNKNOWN</text>
+<rect x="744" y="248" width="184" height="60" rx="6" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="836" y="274" fill="#b4b9c0" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Loại bỏ</text>
+<text x="836" y="292" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">không biết = không lấy</text>
+<text x="480" y="356" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">WHERE chỉ giữ dòng mà điều kiện cho ra TRUE.</text>
+<text x="480" y="376" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">FALSE và UNKNOWN (so sánh với NULL) đều bị loại.</text>
+<text x="480" y="412" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">MUỐN GIỮ CẢ DÒNG NULL: city &lt;&gt; 'Hà Nội' OR city IS NULL</text>
+<text id="tiennhm-copyright" x="936" y="440" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>
