@@ -4,7 +4,7 @@ Lộ trình học SQL trong 30 ngày, mỗi ngày một bài, từ `SELECT` cơ 
 
 Cả khóa dùng **PostgreSQL 16** và một bộ dữ liệu chung, cửa hàng đồ công nghệ **DSC Shop**: mọi ví dụ và bài tập đều chạy được, kết quả in trong bài là kết quả thật.
 
-👉 Bắt đầu tại [Lộ trình học SQL](lessons/00-30-day-sql-learning-roadmap.md).
+👉 Bắt đầu tại [Lộ trình học SQL](lessons/00-30-day-sql-learning-roadmap.md), hoặc đọc trên website: <https://hcmute-dsc.github.io/sql-challenge/>.
 
 ## Chuẩn bị môi trường
 
@@ -88,6 +88,20 @@ setup/data/         file CSV cho bài import/export
 scripts/            script xuất sơ đồ HTML ra PNG
 review/             báo cáo review nội dung khóa học
 ```
+
+## Website
+
+Repo được dựng thành website bằng [VitePress](https://vitepress.dev/). Mỗi lần push lên `main`, GitHub Actions ([deploy-pages.yml](.github/workflows/deploy-pages.yml)) tự build và publish lên GitHub Pages.
+
+Chạy thử trên máy (cần Node.js 20 trở lên):
+
+```sh
+npm install
+npm run docs:dev      # http://localhost:5173, tự tải lại khi sửa bài
+npm run docs:build    # build ra .vitepress/dist
+```
+
+Trang chủ là [index.md](index.md), phần giao diện riêng nằm trong [.vitepress/theme/](.vitepress/theme/). Sidebar tự sinh từ tiêu đề `# ...` của các bài trong `lessons/`.
 
 ## Sửa sơ đồ
 
