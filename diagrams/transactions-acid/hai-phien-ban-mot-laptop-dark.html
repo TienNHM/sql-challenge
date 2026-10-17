@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hai phiên cùng bán một chiếc laptop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Ngày 16 · Transaction · Lost update</p>
+    <h1>Hai phiên cùng bán một chiếc laptop</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hai-phien-ban-mot-laptop-dark-title hai-phien-ban-mot-laptop-dark-desc">
+  <title id="hai-phien-ban-mot-laptop-dark-title">Lost update giữa hai phiên và cách khóa dòng bằng FOR UPDATE</title>
+  <desc id="hai-phien-ban-mot-laptop-dark-desc">Hai phiên cùng đọc tồn kho 5 của ASUS ROG Strix G16 rồi cùng ghi 4, nên bán 2 máy mà kho chỉ trừ 1; khi phiên A dùng SELECT FOR UPDATE, phiên B phải chờ A COMMIT, đọc được 4 rồi ghi 3.</desc>
+  <defs>
+    <marker id="hai-phien-ban-mot-laptop-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="hai-phien-ban-mot-laptop-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#1b1b1d"/>
+<text x="32" y="40" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">ĐỌC RỒI GHI · READ COMMITTED</text>
+<text x="32" y="62" fill="#e3e3e3" font-size="14" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Mất một lần cập nhật</text>
+<text x="146.0" y="104" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">PHIÊN A</text>
+<text x="314.0" y="104" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">PHIÊN B</text>
+<text x="436" y="104" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">STOCK</text>
+<line x1="146.0" y1="112" x2="146.0" y2="400" stroke="rgba(227,227,227,0.24)" stroke-width="1" stroke-dasharray="2,3"/>
+<line x1="314.0" y1="112" x2="314.0" y2="400" stroke="rgba(227,227,227,0.24)" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="32" y="161.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t1</text>
+<text x="32" y="229.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t2</text>
+<text x="32" y="297.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t3</text>
+<text x="32" y="365.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t4</text>
+<rect x="68" y="132" width="156" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="146.0" y="154" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Đọc tồn kho</text>
+<text x="146.0" y="171" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SELECT … → 5</text>
+<rect x="236" y="200" width="156" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="314.0" y="222" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Đọc tồn kho</text>
+<text x="314.0" y="239" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SELECT … → 5</text>
+<rect x="68" y="268" width="156" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="146.0" y="290" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Ghi 5 − 1 = 4</text>
+<text x="146.0" y="307" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">UPDATE … = 4; COMMIT</text>
+<rect x="236" y="336" width="156" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="314.0" y="358" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Ghi 5 − 1 = 4</text>
+<text x="314.0" y="375" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">UPDATE … = 4; COMMIT</text>
+<text x="436" y="164.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">5</text>
+<text x="436" y="232.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">5</text>
+<text x="436" y="300.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">4</text>
+<text x="436" y="368.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">4</text>
+<text x="436" y="402" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">bán 2, trừ 1</text>
+<line x1="488" y1="32" x2="488" y2="444" stroke="rgba(227,227,227,0.12)" stroke-width="1"/>
+<text x="512" y="40" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">KHÓA DÒNG · SELECT … FOR UPDATE</text>
+<text x="512" y="62" fill="#e3e3e3" font-size="14" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Phiên B phải xếp hàng</text>
+<text x="626.0" y="104" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">PHIÊN A</text>
+<text x="794.0" y="104" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">PHIÊN B</text>
+<text x="916" y="104" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.18em">STOCK</text>
+<line x1="626.0" y1="112" x2="626.0" y2="400" stroke="rgba(227,227,227,0.24)" stroke-width="1" stroke-dasharray="2,3"/>
+<line x1="794.0" y1="112" x2="794.0" y2="400" stroke="rgba(227,227,227,0.24)" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="512" y="161.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t1</text>
+<text x="512" y="229.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t2</text>
+<text x="512" y="297.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t3</text>
+<text x="512" y="365.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">t4</text>
+<rect x="548" y="132" width="156" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="626.0" y="154" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Đọc và khóa dòng</text>
+<text x="626.0" y="171" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">FOR UPDATE → 5</text>
+<rect x="716" y="200" width="156" height="52" rx="6" fill="#1b1b1d" stroke="#b4b9c0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="794.0" y="222" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Đợi khóa của A</text>
+<text x="794.0" y="239" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">FOR UPDATE … chờ</text>
+<rect x="548" y="268" width="156" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="626.0" y="290" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Ghi 5 − 1 = 4</text>
+<text x="626.0" y="307" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">UPDATE … = 4; COMMIT</text>
+<rect x="716" y="336" width="156" height="52" rx="6" fill="#1b1b1d"/><rect x="716" y="336" width="156" height="52" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<text x="794.0" y="358" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Nhận khóa, đọc 4</text>
+<text x="794.0" y="375" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">UPDATE … = 3; COMMIT</text>
+<text x="916" y="164.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">5</text>
+<text x="916" y="232.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">5</text>
+<text x="916" y="300.0" fill="#e3e3e3" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">4</text>
+<text x="916" y="368.0" fill="#25c19f" font-size="18" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">3</text>
+<text x="916" y="402" fill="#25c19f" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">bán 2, trừ 2</text>
+<rect x="764" y="286.0" width="60" height="14" fill="#1b1b1d"/>
+<text x="794" y="297.0" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">vẫn chờ…</text>
+<text x="252" y="436" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">Cả hai cùng đọc 5, lần ghi sau đè lần ghi trước.</text>
+<text x="732" y="436" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">B chờ tới khi A COMMIT, rồi đọc giá trị mới.</text>
+<text x="480" y="468" fill="#b4b9c0" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">Ví dụ: hai khách cùng mua ASUS ROG Strix G16 (product_id = 1, stock_quantity = 5)</text>
+<text id="tiennhm-copyright" x="936" y="500" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

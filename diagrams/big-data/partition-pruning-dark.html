@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partition pruning: chỉ quét phân vùng khớp điều kiện</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Partitioning · perf.orders_by_year</p>
+    <h1>Partition pruning: chỉ quét phân vùng khớp điều kiện</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 464" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="partition-pruning-dark-title partition-pruning-dark-desc">
+  <title id="partition-pruning-dark-title">Partition pruning trên bảng orders_by_year</title>
+  <desc id="partition-pruning-dark-desc">Truy vấn lọc order_date trong năm 2024 đi qua bảng cha orders_by_year chia RANGE theo năm; chỉ phân vùng orders_2024 được quét, các phân vùng 2023, 2025, 2026 và default bị bỏ qua.</desc>
+  <defs>
+    <marker id="partition-pruning-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="partition-pruning-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#1b1b1d"/>
+
+  <!-- Column eyebrows -->
+  <text x="32" y="36" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">TRUY VẤN</text>
+  <text x="340" y="36" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">BẢNG CHA</text>
+  <text x="640" y="36" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">PHÂN VÙNG · RANGE THEO NĂM</text>
+
+  <!-- Arrows first -->
+  <line x1="272" y1="142" x2="340" y2="142" stroke="#25c19f" stroke-width="1.4" marker-end="url(#partition-pruning-dark-arrow-accent)"/>
+  <line x1="540" y1="142" x2="640" y2="142" stroke="#25c19f" stroke-width="1.4" marker-end="url(#partition-pruning-dark-arrow-accent)"/>
+  <path d="M540 122 H556 Q564 122 564 114 V82 Q564 74 572 74 H640" stroke="#b4b9c0" stroke-width="1.2" fill="none" stroke-dasharray="5,4" marker-end="url(#partition-pruning-dark-arrow)"/>
+  <path d="M540 162 H596 Q604 162 604 170 V202 Q604 210 612 210 H640" stroke="#b4b9c0" stroke-width="1.2" fill="none" stroke-dasharray="5,4" marker-end="url(#partition-pruning-dark-arrow)"/>
+  <path d="M540 182 H576 Q584 182 584 190 V270 Q584 278 592 278 H640" stroke="#b4b9c0" stroke-width="1.2" fill="none" stroke-dasharray="5,4" marker-end="url(#partition-pruning-dark-arrow)"/>
+  <path d="M540 202 H556 Q564 202 564 210 V338 Q564 346 572 346 H640" stroke="#b4b9c0" stroke-width="1.2" fill="none" stroke-dasharray="5,4" marker-end="url(#partition-pruning-dark-arrow)"/>
+
+  <!-- Arrow label -->
+  <rect x="592" y="122" width="36" height="12" rx="2" fill="#1b1b1d"/><text x="610" y="131" fill="#25c19f" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">QUÉT</text>
+
+  <!-- Query -->
+  <rect x="32" y="98" width="240" height="88" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+  <rect x="44" y="110" width="44" height="14" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+  <text x="66" y="120" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SELECT</text>
+  <text x="96" y="122" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Đơn hàng năm 2024</text>
+  <text x="44" y="150" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">WHERE order_date &gt;= '2024-01-01'</text>
+  <text x="44" y="166" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">  AND order_date &lt;  '2025-01-01'</text>
+
+  <!-- Parent -->
+  <rect x="340" y="102" width="200" height="120" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+  <rect x="352" y="114" width="36" height="14" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+  <text x="370" y="124" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+  <text x="396" y="126" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders_by_year</text>
+  <text x="352" y="152" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">PARTITION BY RANGE</text>
+  <text x="352" y="166" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">(order_date)</text>
+  <text x="352" y="192" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">không chứa dòng nào,</text>
+  <text x="352" y="206" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">chỉ định tuyến</text>
+
+  <!-- Partitions -->
+  <rect x="640" y="48" width="288" height="52" rx="6" fill="rgba(227,227,227,0.02)" stroke="rgba(227,227,227,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="652" y="70" fill="#b4b9c0" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders_2023</text>
+  <text x="652" y="88" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">[2023-01-01, 2024-01-01) · 264.867 dòng</text>
+  <text x="916" y="70" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.12em">BỎ QUA</text>
+
+  <rect x="640" y="116" width="288" height="52" rx="6" fill="#1b1b1d"/>
+  <rect x="640" y="116" width="288" height="52" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+  <text x="652" y="138" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders_2024</text>
+  <text x="652" y="156" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">[2024-01-01, 2025-01-01) · 264.671 dòng</text>
+  <text x="916" y="138" fill="#25c19f" font-size="7" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.12em">SEQ SCAN</text>
+
+  <rect x="640" y="184" width="288" height="52" rx="6" fill="rgba(227,227,227,0.02)" stroke="rgba(227,227,227,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="652" y="206" fill="#b4b9c0" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders_2025</text>
+  <text x="652" y="224" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">[2025-01-01, 2026-01-01) · 264.498 dòng</text>
+  <text x="916" y="206" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.12em">BỎ QUA</text>
+
+  <rect x="640" y="252" width="288" height="52" rx="6" fill="rgba(227,227,227,0.02)" stroke="rgba(227,227,227,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="652" y="274" fill="#b4b9c0" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders_2026</text>
+  <text x="652" y="292" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">[2026-01-01, 2027-01-01) · 205.964 dòng</text>
+  <text x="916" y="274" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.12em">BỎ QUA</text>
+
+  <rect x="640" y="320" width="288" height="52" rx="6" fill="rgba(227,227,227,0.02)" stroke="rgba(227,227,227,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="652" y="342" fill="#b4b9c0" font-size="12" font-weight="600" font-family="'Geist', sans-serif">orders_default</text>
+  <text x="652" y="360" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace">DEFAULT · dòng ngoài mọi khoảng</text>
+  <text x="916" y="342" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.12em">BỎ QUA</text>
+
+  <!-- Callouts -->
+  <text x="32" y="248" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">[ FROM bao gồm, TO không bao gồm )</text>
+  <text x="32" y="268" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">nên các năm nối liền, không chồng lấn.</text>
+  <text x="32" y="300" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">Viết EXTRACT(YEAR FROM order_date) = 2024</text>
+  <text x="32" y="320" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif">thì cả 5 phân vùng đều bị quét.</text>
+
+  <!-- Legend -->
+  <line x1="32" y1="396" x2="928" y2="396" stroke="rgba(227,227,227,0.10)" stroke-width="0.8"/>
+  <text x="32" y="420" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">CHÚ GIẢI</text>
+  <rect x="120" y="412" width="24" height="12" rx="2" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+  <text x="152" y="421" fill="#b4b9c0" font-size="9" font-family="'Geist', sans-serif">Phân vùng được đọc</text>
+  <rect x="292" y="412" width="24" height="12" rx="2" fill="rgba(227,227,227,0.02)" stroke="rgba(227,227,227,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="324" y="421" fill="#b4b9c0" font-size="9" font-family="'Geist', sans-serif">Bị cắt tỉa khi lập kế hoạch, không đọc trang nào</text>
+  <text id="tiennhm-copyright" x="936" y="452" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

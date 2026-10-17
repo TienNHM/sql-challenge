@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERD của DSC Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #fafaf7;
+      --color-ink:    #1c1e21;
+      --color-muted:  #525860;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">ER · schema shop</p>
+    <h1>ERD của DSC Shop</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 664" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="erd-dsc-shop-title erd-dsc-shop-desc">
+  <title id="erd-dsc-shop-title">ERD của DSC Shop</title>
+  <desc id="erd-dsc-shop-desc">Bảy bảng của DSC Shop: customers một-nhiều orders, employees không-hoặc-một tới nhiều orders, orders một-nhiều payments, orders và products nhiều-nhiều qua order_items, categories một-nhiều products; categories và employees tự tham chiếu.</desc>
+  <rect width="100%" height="100%" fill="#fafaf7"/>
+<line x1="180" y1="264" x2="216" y2="264" stroke="#525860" stroke-width="1.2"/>
+<text x="187" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<text x="209" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<line x1="368" y1="264" x2="404" y2="264" stroke="#525860" stroke-width="1.2"/>
+<text x="375" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<text x="397" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<line x1="556" y1="264" x2="592" y2="264" stroke="#525860" stroke-width="1.2"/>
+<text x="563" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<text x="585" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<line x1="744" y1="264" x2="780" y2="264" stroke="#525860" stroke-width="1.2"/>
+<text x="751" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<text x="773" y="256" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<line x1="668" y1="188" x2="668" y2="224" stroke="#525860" stroke-width="1.2" stroke-dasharray="5,4"/>
+<text x="676" y="200" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start">0..1</text>
+<text x="676" y="218" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start">N</text>
+<line x1="668" y1="388" x2="668" y2="428" stroke="#525860" stroke-width="1.2"/>
+<text x="676" y="400" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start">1</text>
+<text x="676" y="422" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start">N</text>
+<path d="M64 224 V212 Q64 204 72 204 H136 Q144 204 144 212 V224" stroke="#525860" stroke-width="1.2" stroke-dasharray="5,4" fill="none"/>
+<text x="50" y="218" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">0..1</text>
+<text x="152" y="218" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<rect x="74" y="185" width="60" height="12" rx="2" fill="#fafaf7"/>
+<text x="104" y="194" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">PARENT_ID</text>
+<path d="M628 64 V52 Q628 44 636 44 H700 Q708 44 708 52 V64" stroke="#525860" stroke-width="1.2" stroke-dasharray="5,4" fill="none"/>
+<text x="614" y="58" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">0..1</text>
+<text x="716" y="58" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<rect x="636" y="25" width="64" height="12" rx="2" fill="#fafaf7"/>
+<text x="668" y="34" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MANAGER_ID</text>
+<rect x="28" y="224" width="152" height="104" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="36" y="233" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="54" y="243" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="80" y="245" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">categories</text>
+<line x1="28" y1="256" x2="180" y2="256" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="40" y="273" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#category_id</text>
+<text x="168" y="273" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="40" y="293" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">name</text>
+<text x="168" y="293" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">UNIQUE</text>
+<text x="40" y="313" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→parent_id</text>
+<text x="168" y="313" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<rect x="216" y="224" width="152" height="164" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="224" y="233" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="242" y="243" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="268" y="245" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">products</text>
+<line x1="216" y1="256" x2="368" y2="256" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="228" y="273" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#product_id</text>
+<text x="356" y="273" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="228" y="293" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">sku</text>
+<text x="356" y="293" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">UNIQUE</text>
+<text x="228" y="313" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">name</text>
+<text x="356" y="313" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<text x="228" y="333" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→category_id</text>
+<text x="356" y="333" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="228" y="353" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">price</text>
+<text x="356" y="353" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">NUMERIC</text>
+<text x="228" y="373" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">attributes</text>
+<text x="356" y="373" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">JSONB</text>
+<rect x="404" y="224" width="152" height="144" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="412" y="233" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="430" y="243" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="456" y="245" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">order_items</text>
+<line x1="404" y1="256" x2="556" y2="256" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="416" y="273" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#→order_id</text>
+<text x="544" y="273" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="416" y="293" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#→product_id</text>
+<text x="544" y="293" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="416" y="313" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">quantity</text>
+<text x="544" y="313" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="416" y="333" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">unit_price</text>
+<text x="544" y="333" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">NUMERIC</text>
+<text x="416" y="353" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">discount</text>
+<text x="544" y="353" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">NUMERIC</text>
+<rect x="592" y="224" width="152" height="164" rx="6" fill="#fafaf7"/><rect x="592" y="224" width="152" height="164" rx="6" fill="rgba(24,129,106,0.08)" stroke="#18816a" stroke-width="1"/>
+<rect x="600" y="233" width="36" height="14" rx="2" fill="none" stroke="#18816a" stroke-width="0.8"/>
+<text x="618" y="243" fill="#18816a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="644" y="245" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">orders</text>
+<line x1="592" y1="256" x2="744" y2="256" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="604" y="273" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#order_id</text>
+<text x="732" y="273" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="604" y="293" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→customer_id</text>
+<text x="732" y="293" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="604" y="313" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→employee_id</text>
+<text x="732" y="313" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="604" y="333" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">order_date</text>
+<text x="732" y="333" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">TIMESTAMPTZ</text>
+<text x="604" y="353" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">status</text>
+<text x="732" y="353" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<text x="604" y="373" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">channel</text>
+<text x="732" y="373" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<rect x="780" y="224" width="152" height="124" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="788" y="233" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="806" y="243" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="832" y="245" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">customers</text>
+<line x1="780" y1="256" x2="932" y2="256" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="792" y="273" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#customer_id</text>
+<text x="920" y="273" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="792" y="293" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">full_name</text>
+<text x="920" y="293" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<text x="792" y="313" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">email</text>
+<text x="920" y="313" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">UNIQUE</text>
+<text x="792" y="333" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">city</text>
+<text x="920" y="333" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<rect x="592" y="64" width="152" height="124" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="600" y="73" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="618" y="83" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="644" y="85" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">employees</text>
+<line x1="592" y1="96" x2="744" y2="96" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="604" y="113" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#employee_id</text>
+<text x="732" y="113" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="604" y="133" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">full_name</text>
+<text x="732" y="133" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<text x="604" y="153" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">title</text>
+<text x="732" y="153" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<text x="604" y="173" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→manager_id</text>
+<text x="732" y="173" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<rect x="592" y="428" width="152" height="144" rx="6" fill="#ffffff" stroke="#1c1e21" stroke-width="1"/>
+<rect x="600" y="437" width="36" height="14" rx="2" fill="none" stroke="#525860" stroke-width="0.8"/>
+<text x="618" y="447" fill="#525860" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="644" y="449" fill="#1c1e21" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">payments</text>
+<line x1="592" y1="460" x2="744" y2="460" stroke="rgba(28,30,33,0.10)" stroke-width="1"/>
+<text x="604" y="477" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#payment_id</text>
+<text x="732" y="477" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="604" y="497" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→order_id</text>
+<text x="732" y="497" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">INT</text>
+<text x="604" y="517" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">amount</text>
+<text x="732" y="517" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">NUMERIC</text>
+<text x="604" y="537" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">method</text>
+<text x="732" y="537" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">VARCHAR</text>
+<text x="604" y="557" fill="#1c1e21" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">paid_at</text>
+<text x="732" y="557" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">TIMESTAMPTZ</text>
+<text x="28" y="452" fill="#525860" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">order_items là bảng trung gian của quan hệ n-n</text>
+<text x="28" y="474" fill="#525860" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">giữa orders và products, giữ cả giá lúc mua.</text>
+<text x="780" y="108" fill="#525860" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">Đơn online không có</text>
+<text x="780" y="130" fill="#525860" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">nhân viên bán (NULL).</text>
+<line x1="28" y1="596" x2="932" y2="596" stroke="rgba(28,30,33,0.10)" stroke-width="0.8"/>
+<text x="28" y="620" fill="#525860" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">CHÚ GIẢI</text>
+<text x="116" y="620" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#  khóa chính</text>
+<text x="228" y="620" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→  khóa ngoại</text>
+<text x="340" y="620" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">1 … N  một dòng ứng với nhiều dòng</text>
+<line x1="584" y1="617" x2="612" y2="617" stroke="#525860" stroke-width="1.2" stroke-dasharray="5,4"/>
+<text x="620" y="620" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">khóa ngoại cho phép NULL</text>
+<rect x="784" y="611" width="24" height="12" rx="2" fill="rgba(24,129,106,0.08)" stroke="#18816a" stroke-width="1"/>
+<text x="816" y="620" fill="#525860" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">bảng trung tâm</text>
+<text id="tiennhm-copyright" x="936" y="652" text-anchor="end" fill="#525860" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

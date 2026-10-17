@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuẩn hóa bảng đơn hàng 1NF về 3NF</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      /* Instrument Serif has no Vietnamese subset; a per-glyph fallback mixes two faces
+         inside one word, so Vietnamese titles swap the whole face instead. */
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Normalization · DSC Shop</p>
+    <h1>Chuẩn hóa bảng đơn hàng 1NF về 3NF</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 464" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="chuan-hoa-orders-dark-title chuan-hoa-orders-dark-desc">
+  <title id="chuan-hoa-orders-dark-title">Chuẩn hóa don_hang_1nf thành bốn bảng 3NF</title>
+  <desc id="chuan-hoa-orders-dark-desc">Bảng don_hang_1nf khóa (order_id, sku) có cột phụ thuộc vào một phần khóa và phụ thuộc bắc cầu qua customer_id; sau chuẩn hóa thành khach_hang một-nhiều don_hang một-nhiều dong_hang, và san_pham một-nhiều dong_hang.</desc>
+  <defs>
+    <marker id="chuan-hoa-orders-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="chuan-hoa-orders-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#1b1b1d"/>
+<rect x="300" y="72" width="644" height="152" rx="8" fill="rgba(227,227,227,0.025)" stroke="rgba(227,227,227,0.22)" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="236" y1="184" x2="300" y2="184" stroke="#25c19f" stroke-width="1.4" marker-end="url(#chuan-hoa-orders-dark-arrow-accent)"/>
+<line x1="444" y1="140" x2="476" y2="140" stroke="#b4b9c0" stroke-width="1.2"/>
+<line x1="608" y1="140" x2="640" y2="140" stroke="#b4b9c0" stroke-width="1.2"/>
+<line x1="772" y1="140" x2="804" y2="140" stroke="#b4b9c0" stroke-width="1.2"/>
+<text x="450" y="133" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<text x="470" y="133" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<text x="614" y="133" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<text x="634" y="133" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<text x="778" y="133" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">N</text>
+<text x="798" y="133" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1</text>
+<rect x="238" y="164" width="60" height="12" rx="2" fill="#1b1b1d"/>
+<text x="268" y="173" fill="#25c19f" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CHUẨN HÓA</text>
+<text x="32" y="56" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">1NF · KHÓA (order_id, sku)</text>
+<text x="316" y="56" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">3NF · MỖI SỰ THẬT LƯU MỘT LẦN</text>
+<rect x="32" y="72" width="204" height="224" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="40" y="81" width="36" height="14" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="58" y="91" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="84" y="93" fill="#e3e3e3" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">don_hang_1nf</text>
+<line x1="32" y1="104" x2="236" y2="104" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="44" y="121" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#order_id</text>
+<text x="224" y="121" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">khóa</text>
+<text x="44" y="141" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#sku</text>
+<text x="224" y="141" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">khóa</text>
+<text x="44" y="161" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">order_date</text>
+<text x="224" y="161" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">order_id</text>
+<text x="44" y="181" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">customer_id</text>
+<text x="224" y="181" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">order_id</text>
+<text x="44" y="201" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">customer_name</text>
+<text x="224" y="201" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">customer_id</text>
+<text x="44" y="221" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">customer_city</text>
+<text x="224" y="221" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">customer_id</text>
+<text x="44" y="241" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">product_name</text>
+<text x="224" y="241" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">sku</text>
+<text x="44" y="261" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">quantity</text>
+<text x="224" y="261" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">order_id, sku</text>
+<text x="44" y="281" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">unit_price</text>
+<text x="224" y="281" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">order_id, sku</text>
+<rect x="312" y="88" width="132" height="104" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="320" y="97" width="36" height="14" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="338" y="107" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="364" y="109" fill="#e3e3e3" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">khach_hang</text>
+<line x1="312" y1="120" x2="444" y2="120" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="324" y="137" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#customer_id</text>
+<text x="324" y="157" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">customer_name</text>
+<text x="324" y="177" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">customer_city</text>
+<rect x="476" y="88" width="132" height="104" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="484" y="97" width="36" height="14" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="502" y="107" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="528" y="109" fill="#e3e3e3" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">don_hang</text>
+<line x1="476" y1="120" x2="608" y2="120" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="488" y="137" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#order_id</text>
+<text x="488" y="157" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">order_date</text>
+<text x="488" y="177" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→customer_id</text>
+<rect x="640" y="88" width="132" height="124" rx="6" fill="#1b1b1d"/><rect x="640" y="88" width="132" height="124" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<rect x="648" y="97" width="36" height="14" rx="2" fill="none" stroke="#25c19f" stroke-width="0.8"/>
+<text x="666" y="107" fill="#25c19f" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="692" y="109" fill="#e3e3e3" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">dong_hang</text>
+<line x1="640" y1="120" x2="772" y2="120" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="652" y="137" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#→order_id</text>
+<text x="652" y="157" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#→sku</text>
+<text x="652" y="177" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">quantity</text>
+<text x="652" y="197" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">unit_price</text>
+<rect x="804" y="88" width="132" height="84" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="812" y="97" width="36" height="14" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="830" y="107" fill="#b4b9c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BẢNG</text>
+<text x="856" y="109" fill="#e3e3e3" font-size="12" font-family="'Geist', sans-serif" text-anchor="start" font-weight="600">san_pham</text>
+<line x1="804" y1="120" x2="936" y2="120" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="816" y="137" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#sku</text>
+<text x="816" y="157" fill="#e3e3e3" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">product_name</text>
+<text x="32" y="336" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">Tên khách đi theo customer_id, tên sản phẩm đi theo sku,</text>
+<text x="32" y="358" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">nên bị lặp ở mọi dòng hàng của bảng 1NF.</text>
+<text x="316" y="264" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">Sau khi tách: tên khách lưu 1 lần thay vì 7;</text>
+<text x="316" y="286" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">unit_price vẫn ở dong_hang vì là giá lúc mua.</text>
+<line x1="32" y1="392" x2="928" y2="392" stroke="rgba(227,227,227,0.10)" stroke-width="0.8"/>
+<text x="32" y="414" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">CHÚ GIẢI</text>
+<text x="120" y="414" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">#  khóa chính</text>
+<text x="232" y="414" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">→  khóa ngoại</text>
+<text x="344" y="414" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">1 … N  một dòng bên 1 ứng với nhiều dòng bên N</text>
+<text x="672" y="414" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">chữ xám bên phải: cột quyết định nó</text>
+<text id="tiennhm-copyright" x="936" y="452" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

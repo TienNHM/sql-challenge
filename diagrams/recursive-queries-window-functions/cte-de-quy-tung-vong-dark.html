@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTE đệ quy chạy từng vòng cho tới khi không còn dòng mới</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">WITH RECURSIVE · cây categories</p>
+    <h1>CTE đệ quy chạy từng vòng cho tới khi không còn dòng mới</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 448" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cte-de-quy-tung-vong-dark-title cte-de-quy-tung-vong-dark-desc">
+  <title id="cte-de-quy-tung-vong-dark-title">CTE đệ quy duyệt cây categories theo từng vòng</title>
+  <desc id="cte-de-quy-tung-vong-dark-desc">Phần neo lấy 4 danh mục gốc, vòng 1 JOIN ra 7 danh mục con, vòng 2 ra 2 danh mục cháu, vòng 3 không còn dòng nào nên dừng; UNION ALL gom lại đủ 13 danh mục.</desc>
+  <defs>
+    <marker id="cte-de-quy-tung-vong-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="cte-de-quy-tung-vong-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#1b1b1d"/>
+<text x="32" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="start" letter-spacing="0.18em">MỖI VÒNG CHỈ JOIN VỚI CÁC DÒNG VÒNG NGAY TRƯỚC VỪA SINH RA</text>
+<line x1="224" y1="132" x2="272" y2="132" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cte-de-quy-tung-vong-dark-arrow)"/>
+<line x1="464" y1="132" x2="512" y2="132" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cte-de-quy-tung-vong-dark-arrow)"/>
+<line x1="704" y1="132" x2="752" y2="132" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cte-de-quy-tung-vong-dark-arrow)"/>
+<line x1="128" y1="304" x2="128" y2="352" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cte-de-quy-tung-vong-dark-arrow)"/>
+<line x1="368" y1="304" x2="368" y2="352" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cte-de-quy-tung-vong-dark-arrow)"/>
+<line x1="608" y1="304" x2="608" y2="352" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#cte-de-quy-tung-vong-dark-arrow)"/>
+<rect x="32" y="72" width="192" height="232" rx="6" fill="#1b1b1d"/>
+<rect x="32" y="72" width="192" height="232" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="44" y="84" width="56" height="16" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="72.0" y="95" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">PHẦN NEO</text>
+<text x="44" y="124" fill="#e3e3e3" font-size="13" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Vòng 0</text>
+<text x="44" y="140" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">parent_id IS NULL</text>
+<line x1="44" y1="152" x2="212" y2="152" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="44" y="170" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Máy tính</text>
+<text x="44" y="187" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Điện thoại &amp; Tablet</text>
+<text x="44" y="204" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Phụ kiện</text>
+<text x="44" y="221" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Thiết bị mạng</text>
+<text x="44" y="290" fill="#b4b9c0" font-size="9" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="start">4 dòng mới</text>
+<rect x="272" y="72" width="192" height="232" rx="6" fill="#1b1b1d"/>
+<rect x="272" y="72" width="192" height="232" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="284" y="84" width="74" height="16" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="321.0" y="95" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">PHẦN ĐỆ QUY</text>
+<text x="284" y="124" fill="#e3e3e3" font-size="13" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Vòng 1</text>
+<text x="284" y="140" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">con của vòng 0</text>
+<line x1="284" y1="152" x2="452" y2="152" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="284" y="170" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Laptop</text>
+<text x="284" y="187" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">PC &amp; Màn hình</text>
+<text x="284" y="204" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Điện thoại</text>
+<text x="284" y="221" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Máy tính bảng</text>
+<text x="284" y="238" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Chuột &amp; Bàn phím</text>
+<text x="284" y="255" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Tai nghe &amp; Loa</text>
+<text x="284" y="272" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Sạc &amp; Cáp</text>
+<text x="284" y="290" fill="#b4b9c0" font-size="9" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="start">7 dòng mới</text>
+<rect x="512" y="72" width="192" height="232" rx="6" fill="#1b1b1d"/>
+<rect x="512" y="72" width="192" height="232" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<rect x="524" y="84" width="74" height="16" rx="2" fill="none" stroke="#b4b9c0" stroke-width="0.8"/>
+<text x="561.0" y="95" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">PHẦN ĐỆ QUY</text>
+<text x="524" y="124" fill="#e3e3e3" font-size="13" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Vòng 2</text>
+<text x="524" y="140" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">con của vòng 1</text>
+<line x1="524" y1="152" x2="692" y2="152" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="524" y="170" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Laptop gaming</text>
+<text x="524" y="187" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Laptop văn phòng</text>
+<text x="524" y="290" fill="#b4b9c0" font-size="9" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="start">2 dòng mới</text>
+<rect x="752" y="72" width="192" height="232" rx="6" fill="#1b1b1d"/>
+<rect x="752" y="72" width="192" height="232" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<rect x="764" y="84" width="74" height="16" rx="2" fill="none" stroke="#25c19f" stroke-width="0.8"/>
+<text x="801.0" y="95" fill="#25c19f" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">PHẦN ĐỆ QUY</text>
+<text x="764" y="124" fill="#e3e3e3" font-size="13" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Vòng 3</text>
+<text x="764" y="140" fill="#b4b9c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="start">con của vòng 2</text>
+<line x1="764" y1="152" x2="932" y2="152" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="764" y="176" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">Không danh mục nào có</text>
+<text x="764" y="193" fill="#e3e3e3" font-size="11" font-family="'Geist', sans-serif" text-anchor="start">parent_id là 3 hoặc 4</text>
+<text x="764" y="224" fill="#25c19f" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">Bảng tạm rỗng</text>
+<text x="764" y="241" fill="#25c19f" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">→ dừng đệ quy</text>
+<text x="764" y="290" fill="#25c19f" font-size="9" font-weight="500" font-family="'Geist Mono', monospace" text-anchor="start">0 dòng mới</text>
+<rect x="230" y="106" width="36" height="14" fill="#1b1b1d"/>
+<text x="248.0" y="116" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">JOIN</text>
+<rect x="470" y="106" width="36" height="14" fill="#1b1b1d"/>
+<text x="488.0" y="116" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">JOIN</text>
+<rect x="710" y="106" width="36" height="14" fill="#1b1b1d"/>
+<text x="728.0" y="116" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">JOIN</text>
+<rect x="32" y="352" width="672" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="48" y="374" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="start">UNION ALL gom kết quả mọi vòng</text>
+<text x="48" y="392" fill="#b4b9c0" font-size="10" font-family="'Geist Mono', monospace" text-anchor="start">4 + 7 + 2 = 13 dòng = cả 13 danh mục</text>
+<text x="752" y="366" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">Dữ liệu có vòng lặp:</text>
+<text x="752" y="386" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">bảng tạm không bao giờ</text>
+<text x="752" y="406" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="start">rỗng, phải chặn</text>
+<text id="tiennhm-copyright" x="936" y="436" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>

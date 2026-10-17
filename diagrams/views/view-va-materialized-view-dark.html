@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View thường đọc bảng gốc mỗi lần, materialized view đọc bản lưu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400;1,62.5..100,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #1b1b1d;
+      --color-ink:    #e3e3e3;
+      --color-muted:  #b4b9c0;
+      --font-sans:    'Geist', system-ui, sans-serif;
+      --font-serif:   'Noto Serif Display', serif;
+      --font-mono:    'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em;
+               text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-stretch: 75%; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400;
+         letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">View · view thường và materialized view</p>
+    <h1>View thường đọc bảng gốc mỗi lần, materialized view đọc bản lưu</h1>
+    <div class="diagram-container">
+<svg viewBox="0 0 960 492" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="view-va-materialized-view-dark-title view-va-materialized-view-dark-desc">
+  <title id="view-va-materialized-view-dark-title">View thường và materialized view</title>
+  <desc id="view-va-materialized-view-dark-desc">View thường order_totals chỉ lưu câu SELECT: mỗi lần truy vấn, PostgreSQL viết lại thành truy vấn trên bảng gốc orders và order_items nên kết quả luôn mới nhưng không nhanh hơn. Materialized view monthly_revenue chạy truy vấn một lần khi REFRESH và ghi kết quả ra đĩa; truy vấn sau đó đọc bản lưu nên rất nhanh nhưng chỉ mới tới lần REFRESH gần nhất.</desc>
+  <defs>
+    <marker id="view-va-materialized-view-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b4b9c0"/></marker>
+    <marker id="view-va-materialized-view-dark-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#25c19f"/></marker>
+  </defs>
+<rect width="100%" height="100%" fill="#1b1b1d"/>
+<line x1="480" y1="32" x2="480" y2="448" stroke="rgba(227,227,227,0.10)" stroke-width="1"/>
+<text x="40" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">VIEW THƯỜNG · order_totals</text>
+<text x="40" y="66" fill="#e3e3e3" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Chỉ lưu câu truy vấn</text>
+<text x="520" y="44" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">MATERIALIZED VIEW · monthly_revenue</text>
+<text x="520" y="66" fill="#e3e3e3" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Lưu sẵn kết quả</text>
+<line x1="240.0" y1="148" x2="240.0" y2="180" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#view-va-materialized-view-dark-arrow)"/>
+<rect x="250.0" y="158.0" width="60" height="12" rx="2" fill="#1b1b1d"/><text x="280.0" y="167.0" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">VIẾT LẠI</text>
+<line x1="240.0" y1="232" x2="240.0" y2="264" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#view-va-materialized-view-dark-arrow)"/>
+<rect x="250.0" y="242.0" width="84" height="12" rx="2" fill="#1b1b1d"/><text x="292.0" y="251.0" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">CHẠY MỖI LẦN</text>
+<line x1="240.0" y1="316" x2="240.0" y2="348" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#view-va-materialized-view-dark-arrow)"/>
+<line x1="720.0" y1="148" x2="720.0" y2="180" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#view-va-materialized-view-dark-arrow)"/>
+<rect x="730.0" y="158.0" width="72" height="12" rx="2" fill="#1b1b1d"/><text x="766.0" y="167.0" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">CHẠY 1 LẦN</text>
+<line x1="720.0" y1="232" x2="720.0" y2="264" stroke="#b4b9c0" stroke-width="1.2" marker-end="url(#view-va-materialized-view-dark-arrow)"/>
+<rect x="730.0" y="242.0" width="80" height="12" rx="2" fill="#1b1b1d"/><text x="770.0" y="251.0" fill="#b4b9c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">GHI KẾT QUẢ</text>
+<line x1="720.0" y1="348" x2="720.0" y2="316" stroke="#25c19f" stroke-width="1.4" marker-end="url(#view-va-materialized-view-dark-arrow-accent)"/>
+<rect x="730.0" y="326.0" width="80" height="12" rx="2" fill="#1b1b1d"/><text x="770.0" y="335.0" fill="#25c19f" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">ĐỌC BẢN LƯU</text>
+<rect x="100" y="96" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="240.0" y="118" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Truy vấn view</text>
+<text x="240.0" y="136" fill="#b4b9c0" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">SELECT * FROM order_totals</text>
+<rect x="100" y="180" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="240.0" y="202" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Định nghĩa view</text>
+<text x="240.0" y="220" fill="#b4b9c0" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">câu SELECT đã lưu, không chứa dòng nào</text>
+<rect x="100" y="264" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="240.0" y="286" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bảng gốc orders + order_items</text>
+<text x="240.0" y="304" fill="#b4b9c0" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">JOIN và GROUP BY lại từ đầu</text>
+<rect x="100" y="348" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="240.0" y="370" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Kết quả luôn mới</text>
+<text x="240.0" y="388" fill="#b4b9c0" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">tốn công như tự viết truy vấn</text>
+<rect x="580" y="96" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="720.0" y="118" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Làm mới dữ liệu</text>
+<text x="720.0" y="136" fill="#b4b9c0" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">REFRESH MATERIALIZED VIEW</text>
+<rect x="580" y="180" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="720.0" y="202" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bảng gốc orders + order_items</text>
+<text x="720.0" y="220" fill="#b4b9c0" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">chỉ được đọc khi REFRESH</text>
+<rect x="580" y="264" width="280" height="52" rx="6" fill="#1b1b1d"/><rect x="580" y="264" width="280" height="52" rx="6" fill="rgba(37,193,159,0.10)" stroke="#25c19f" stroke-width="1"/>
+<text x="720.0" y="286" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Bản lưu kết quả trên đĩa</text>
+<text x="720.0" y="304" fill="#b4b9c0" font-size="10.5" font-family="'Geist', sans-serif" text-anchor="middle">22 dòng, tạo index được</text>
+<rect x="580" y="348" width="280" height="52" rx="6" fill="#242526" stroke="#e3e3e3" stroke-width="1"/>
+<text x="720.0" y="370" fill="#e3e3e3" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Truy vấn materialized view</text>
+<text x="720.0" y="388" fill="#b4b9c0" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">SELECT * FROM monthly_revenue</text>
+<text x="240.0" y="436" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">không nhanh hơn, nhưng không bao giờ cũ</text>
+<text x="720.0" y="436" fill="#b4b9c0" font-size="15" font-family="'Geist', sans-serif" text-anchor="middle">rất nhanh, nhưng chỉ mới tới lần REFRESH gần nhất</text>
+<text id="tiennhm-copyright" x="936" y="480" text-anchor="end" fill="#b4b9c0" opacity="0.75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.08em">© tiennhm</text>
+</svg>
+    </div>
+  </div>
+</body>
+</html>
